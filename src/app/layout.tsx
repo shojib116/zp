@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import SideNav from "@/components/layout/sidenav";
 
 const interSans = Inter({
   variable: "--font-inter",
@@ -19,7 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interSans.variable} antialiased`}>{children}</body>
+      <body className={`${interSans.variable} antialiased`}>
+        <header className="sticky z-50 border-b top-0 left-0 bg-background right-0 h-20"></header>
+        <div className="flex w-full">
+          <SideNav className="sticky top-20 shrink-0 h-[calc(100vh-5rem)]" />
+          <main className="grow">{children}</main>
+        </div>
+      </body>
     </html>
   );
 }
