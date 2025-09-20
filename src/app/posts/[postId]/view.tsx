@@ -1,9 +1,12 @@
-import useFetch from "@/lib/hooks/use-fetch";
-import type { Post as PostType, User } from "@/lib/types";
-import { capitalize } from "@/lib/utils";
-import { ChevronRight, UserCircle } from "lucide-react";
+"use client";
+
+import ErrorFallback from "@/components/layout/error-fallback";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import Post from "@/components/layout/posts/post";
+import PostSkeleton from "@/components/layout/posts/post-skeleton";
 
 export default function PostView({ id }: { id: string }) {
   return (
@@ -14,34 +17,18 @@ export default function PostView({ id }: { id: string }) {
         </Link>{" "}
         <ChevronRight /> {id}
       </h1>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Post id={id} />
-      </Suspense>
-    </div>
-  );
-}
-
-function Post({ id }: { id: string }) {
-  const { data: post } = useFetch<PostType>(
-    `https://jsonplaceholder.typicode.com/posts/${id}`,
-  );
-
-  const { data: user } = useFetch<User>(
-    `https://jsonplaceholder.typicode.com/users/${post.userId}`,
-  );
-  return (
-    <div>
-      <h2 className="text-2xl font-medium">{capitalize(post.title)}</h2>
-      <div className="flex items-center gap-2 mt-2">
-        <UserCircle className="w-10 h-10" />
-        <div className="flex flex-col text-sm">
-          <span>
-            {user.name} @{user.username}
-          </span>
-          <span>{user.company.name}</span>
-        </div>
-      </div>
-      <div className="mt-6">{post.body}</div>
+      <ErrorBoundary
+        fallbackRender={({ resetErrorBoundary }) => (
+          <ErrorFallback
+            errorText="Sorry! Some error occured while fetching your post! Please try again!"
+            resetErrorBoundary={resetErrorBoundary}
+          />
+        )}
+      >
+        <Suspense fallback={<PostSkeleton />}>
+          <Post id={id} />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

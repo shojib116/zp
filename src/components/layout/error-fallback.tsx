@@ -12,7 +12,7 @@ export default function ErrorFallback({
         className="px-4 py-2 border bg-muted rounded-md mt-2 font-bold"
         onClick={resetErrorBoundary}
       >
-        Reset
+        Retry
       </button>
     </>
   );
