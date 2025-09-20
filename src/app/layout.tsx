@@ -26,6 +26,7 @@ export default function RootLayout({
           <SideNav className="sticky top-20 shrink-0 h-[calc(100vh-5rem)]" />
           <main className="grow">{children}</main>
         </div>
+        <div id="modal-root" />
       </body>
     </html>
   );
