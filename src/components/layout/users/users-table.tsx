@@ -19,6 +19,7 @@ export default function UsersTable() {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead></TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Company</TableHead>
@@ -26,8 +27,9 @@ export default function UsersTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users.map((user, idx) => (
             <TableRow key={user.id}>
+              <TableCell className="px-8 w-20">{idx + 1}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.company.name}</TableCell>

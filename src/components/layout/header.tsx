@@ -5,7 +5,7 @@ import { SignOut } from "./signout-button";
 
 export default async function Header() {
   const session = await auth();
-  console.log(session);
+
   return (
     <header className="sticky z-50 border-b top-0 left-0 bg-background right-0 h-20">
       <div className="w-full h-full flex items-center px-10 justify-end">
