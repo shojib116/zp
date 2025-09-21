@@ -3,6 +3,7 @@
 import ErrorFallback from "@/components/layout/error-fallback";
 import { UserProfile } from "@/components/layout/users/user-profile";
 import UserProfileSkeleton from "@/components/layout/users/user-profile-skeleton";
+import { notFound } from "next/navigation";
 
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -15,12 +16,15 @@ export default function UserView({ id }: { id: string }) {
 
       {/* Profile Info */}
       <ErrorBoundary
-        fallbackRender={({ resetErrorBoundary }) => (
-          <ErrorFallback
-            errorText="Sorry! Some error occured! Please try again"
-            resetErrorBoundary={resetErrorBoundary}
-          />
-        )}
+        fallbackRender={({ error, resetErrorBoundary }) => {
+          if (error.toString().includes("404")) return notFound();
+          return (
+            <ErrorFallback
+              errorText="Sorry! Some error occured! Please try again"
+              resetErrorBoundary={resetErrorBoundary}
+            />
+          );
+        }}
       >
         <Suspense fallback={<UserProfileSkeleton />}>
           <UserProfile id={id} />
